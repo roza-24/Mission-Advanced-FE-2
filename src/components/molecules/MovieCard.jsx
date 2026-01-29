@@ -1,16 +1,32 @@
 import { Link } from "react-router-dom";
-import { addFavorite } from "../../services/movieService";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-export default function MovieCard({ movie, onUpdate, onDelete }) {
+import { deleteMovie } from "../../store/redux/moviesSlice";
+import { addFavorite } from "../../services/movieService";
+
+export default function MovieCard({ movie, onUpdate }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteMovie(movie.id)).unwrap();
+      toast.success("Delete Berhasil!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Server Error 500");
+    }
+  };
+
   const handleFavorite = async () => {
     try {
       await addFavorite({
         movieId: movie.id,
         title: movie.title,
         image: movie.image,
+        year: movie.year,
+        genre: movie.genre,
       });
-
       toast.success("Ditambahkan ke Favorites");
     } catch (err) {
       console.error(err);
@@ -35,6 +51,9 @@ export default function MovieCard({ movie, onUpdate, onDelete }) {
           {movie.title}
         </h3>
       </Link>
+      <p className="text-sm text-gray-300 mt-1">
+        {movie.year ?? "-"} • {movie.genre ?? "-"}
+      </p>
 
       <div className="flex gap-2 mt-3">
         <button
@@ -43,12 +62,14 @@ export default function MovieCard({ movie, onUpdate, onDelete }) {
         >
           Edit
         </button>
+
         <button
-          onClick={() => onDelete(movie.id)}
+          onClick={handleDelete}
           className="bg-red-600 px-3 py-1 rounded text-sm"
         >
           Delete
         </button>
+
         <button
           onClick={handleFavorite}
           className="bg-pink-600 px-3 py-1 rounded text-sm"

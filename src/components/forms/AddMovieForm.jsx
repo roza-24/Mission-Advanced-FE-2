@@ -1,14 +1,12 @@
-// src/components/forms/AddMovieForm.jsx
 import { useState, useEffect } from "react";
-import { createMovie, updateMovieApi } from "../../services/movieService";
+import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
 
-export default function AddMovieForm({
-  onSuccess,
-  onAdd,
-  onUpdate,
-  editingMovie,
-}) {
+import { addMovie, editMovie } from "../../store/redux/moviesSlice";
+
+export default function AddMovieForm({ onSuccess, editingMovie }) {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     title: "",
     genre: "Action",
@@ -42,13 +40,13 @@ export default function AddMovieForm({
 
     try {
       if (editingMovie) {
-        await updateMovieApi(editingMovie.id, payload);
+        await dispatch(editMovie({ id: editingMovie.id, payload })).unwrap();
       } else {
-        await createMovie(payload);
+        await dispatch(addMovie(payload)).unwrap();
       }
-      onSuccess();
+      onSuccess?.();
     } catch (err) {
-      console.error("ALASAN ERROR 500:", err.response?.data);
+      console.error(err);
       toast.error("Gagal memproses data ke server");
     }
   };
@@ -61,6 +59,7 @@ export default function AddMovieForm({
       <h2 className="text-white text-xl font-bold mb-4">
         {editingMovie ? "Edit Film" : "Add Film"}
       </h2>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
           className="bg-gray-800 text-white p-3 rounded border border-gray-700"
@@ -94,6 +93,7 @@ export default function AddMovieForm({
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
         />
       </div>
+
       <textarea
         className="bg-gray-800 text-white p-3 rounded border border-gray-700 w-full mt-4"
         placeholder="Deskripsi Film"
@@ -101,7 +101,8 @@ export default function AddMovieForm({
         onChange={(e) =>
           setFormData({ ...formData, description: e.target.value })
         }
-      ></textarea>
+      />
+
       <button
         type="submit"
         className="w-full mt-4 bg-red-600 text-white py-3 rounded font-bold hover:bg-red-700"

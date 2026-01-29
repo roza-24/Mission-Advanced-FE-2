@@ -1,10 +1,13 @@
 import { useState } from "react";
-import useMovies from "../hooks/useMovie";
+
 import MovieList from "../components/organisms/MovieList";
 import AddMovieForm from "../components/forms/AddMovieForm";
+import useMoviesRedux from "../hooks/useMoviesRedux";
 
 export default function Home() {
-  const { movies, loading, addMovie, updateMovie, deleteMovie } = useMovies();
+  const { movies, loading, error, addMovie, editMovie, deleteMovie } =
+    useMoviesRedux();
+
   const [showForm, setShowForm] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
 
@@ -21,6 +24,11 @@ export default function Home() {
   if (loading)
     return <div className="text-white text-center pt-32">Loading...</div>;
 
+  if (error)
+    return (
+      <div className="text-red-400 text-center pt-32">{String(error)}</div>
+    );
+
   return (
     <div className="pt-24 px-6 bg-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto flex justify-between items-center mb-8">
@@ -34,14 +42,14 @@ export default function Home() {
 
       {showForm && (
         <AddMovieForm
-          onAdd={addMovie}
-          onUpdate={updateMovie}
           editingMovie={editingMovie}
           onSuccess={handleCloseForm}
+          onAdd={addMovie}
+          onUpdate={editMovie}
         />
       )}
 
-      <MovieList movies={movies} onDelete={deleteMovie} onUpdate={handleEdit} />
+      <MovieList movies={movies} onUpdate={handleEdit} onDelete={deleteMovie} />
     </div>
   );
 }

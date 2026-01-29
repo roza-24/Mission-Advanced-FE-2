@@ -1,6 +1,6 @@
 import MovieCard from "../molecules/MovieCard";
 
-export default function MovieList({ movies = [], onDelete, onUpdate }) {
+export default function MovieList({ movies = [], onUpdate }) {
   if (!Array.isArray(movies)) {
     return <p className="text-white">Loading movies...</p>;
   }
@@ -8,12 +8,7 @@ export default function MovieList({ movies = [], onDelete, onUpdate }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
       {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onDelete={onDelete}
-          onUpdate={onUpdate}
-        />
+        <MovieCard key={movie.id} movie={movie} onUpdate={onUpdate} />
       ))}
     </div>
   );
