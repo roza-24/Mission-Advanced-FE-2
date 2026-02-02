@@ -72,7 +72,7 @@ export default function Login() {
         </button>
 
         <p className="text-center text-sm">
-          Belum punya akun?
+          Don't have an account?
           <span
             onClick={() => navigate("/register")}
             className="text-blue-400 ml-1 cursor-pointer hover:underline"

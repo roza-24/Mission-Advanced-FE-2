@@ -63,7 +63,7 @@ export default function AddMovieForm({ onSuccess, editingMovie }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
           className="bg-gray-800 text-white p-3 rounded border border-gray-700"
-          placeholder="Judul Film"
+          placeholder="Film Title"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
@@ -81,14 +81,14 @@ export default function AddMovieForm({ onSuccess, editingMovie }) {
         </select>
         <input
           className="bg-gray-800 text-white p-3 rounded border border-gray-700"
-          placeholder="Tahun Rilis"
+          placeholder="Year of Release"
           type="number"
           value={formData.year}
           onChange={(e) => setFormData({ ...formData, year: e.target.value })}
         />
         <input
           className="bg-gray-800 text-white p-3 rounded border border-gray-700"
-          placeholder="URL Gambar"
+          placeholder="URL Picture"
           value={formData.image}
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
         />
@@ -96,7 +96,7 @@ export default function AddMovieForm({ onSuccess, editingMovie }) {
 
       <textarea
         className="bg-gray-800 text-white p-3 rounded border border-gray-700 w-full mt-4"
-        placeholder="Deskripsi Film"
+        placeholder="Description Film"
         value={formData.description}
         onChange={(e) =>
           setFormData({ ...formData, description: e.target.value })

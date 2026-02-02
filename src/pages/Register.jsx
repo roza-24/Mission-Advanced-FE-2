@@ -26,7 +26,7 @@ export default function Register() {
 
     if (!isStrongPassword(form.password)) {
       setError(
-        "Password harus min 8 karakter, mengandung huruf besar, angka, dan simbol."
+        "Password harus min 8 karakter, mengandung huruf besar, angka, dan simbol.",
       );
       return;
     }
@@ -34,7 +34,7 @@ export default function Register() {
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     const exists = users.find(
-      (u) => u.username === form.username || u.email === form.email
+      (u) => u.username === form.username || u.email === form.email,
     );
     if (exists) {
       setError("Username atau email sudah terdaftar");
@@ -98,7 +98,7 @@ export default function Register() {
         </button>
 
         <p className="text-center text-sm">
-          Sudah punya akun?
+          Already an Account?
           <span
             onClick={() => navigate("/login")}
             className="text-blue-400 ml-1 cursor-pointer hover:underline"
